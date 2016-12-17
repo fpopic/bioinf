@@ -1,18 +1,15 @@
 # Created by .ignore support plugin (hsz.mobi)
+
 ### CMake template
-CMakeCache.txt
-CMakeFiles
 CMakeScripts
-Makefile
-cmake_install.cmake
 install_manifest.txt
 CTestTestfile.cmake
+
 ### C template
 # Prerequisites
 *.d
 
 # Object files
-*.o
 *.ko
 *.obj
 *.elf
@@ -28,7 +25,6 @@ CTestTestfile.cmake
 
 # Libraries
 *.lib
-*.a
 *.la
 *.lo
 
@@ -40,12 +36,10 @@ CTestTestfile.cmake
 
 # Executables
 *.exe
-*.out
 *.app
 *.i*86
 *.x86_64
 *.hex
-
 # Debug files
 *.dSYM/
 *.su
@@ -86,22 +80,6 @@ dkms.conf
 ## File-based project format:
 *.iws
 
-## Plugin-specific files:
-
-# IntelliJ
-/out/
-
-# mpeltonen/sbt-idea plugin
-.idea_modules/
-
-# JIRA plugin
-atlassian-ide-plugin.xml
-
-# Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
 ### C++ template
 # Prerequisites
 
@@ -121,8 +99,6 @@ fabric.properties
 
 # Executables
 
-/bin/*
-/lib/sdsl-lite/build/
-/lib/sais-2.4.1/build/
-/bioinf_cpp_exe
-/cmake-build-debug/
+cmake-build-debug/
+bin/
+build/

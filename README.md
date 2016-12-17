@@ -6,6 +6,11 @@ Installation will install files in folders:
 headers =>  '/usr/local/include'
 sources =>  '/usr/local/lib'
 
+## Install cmake
+```sh
+sudo apt-install cmake
+```
+
 ## Install sais-2.4.1
 ```sh
 cd CLONED_REPOSITORY_FOLDER/lib/
@@ -21,7 +26,7 @@ sudo make install
 ```sh
 cd CLONED_REPOSITORY_FOLDER/lib/
 unzip sdsl-lite.zip
-cd/sdsl-lite/
+cd sdsl-lite/
 mkdir build
 sudo ./install.sh /usr/local
 ```

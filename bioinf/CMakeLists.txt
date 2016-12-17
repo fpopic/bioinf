@@ -3,7 +3,7 @@ project(bioinf_cpp)
 set(CMAKE_CXX_STANDARD 11)
 
 # gcc
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2 -static -lm -DONLINE_JUDGE -Wall")
 
 # set dir for root folder at tuntime , e.g. cin/cout root path
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}")

@@ -124,3 +124,5 @@ fabric.properties
 
 /bin/*
 /lib/sdsl-lite/build/
+/bioinf_cpp_exe
+/cmake-build-debug/

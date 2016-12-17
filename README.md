@@ -27,7 +27,6 @@ sudo make install
 cd CLONED_REPOSITORY_FOLDER/lib/
 unzip sdsl-lite.zip
 cd sdsl-lite/
-mkdir build
 sudo ./install.sh /usr/local
 ```
 

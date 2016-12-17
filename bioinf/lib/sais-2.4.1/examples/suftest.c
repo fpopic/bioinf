@@ -232,7 +232,7 @@ main(int argc, const char *argv[]) {
     if (needclose & 1) { fclose(fp); }
 
     /* Construct the suffix array. */
-    fprintf(stderr, "%s: %" + LFS_PRId + " bytes ... ", fname, n);
+    fprintf(stderr, "%s: %" LFS_PRId " bytes ... ", fname, n);
     start = clock();
     if (sais_u8(T, SA, (sa_int32_t) n, 256) != 0) {
         fprintf(stderr, "%s: Could not allocate memory.\n", argv[0]);

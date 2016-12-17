@@ -1,8 +1,8 @@
-IF(NOT EXISTS "/home/fpopic/Desktop/bioinf-files/bioinf_git/bioinf/lib/sais-2.4.1/install_manifest.txt")
-  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"/home/fpopic/Desktop/bioinf-files/bioinf_git/bioinf/lib/sais-2.4.1/install_manifest.txt\"")
-ENDIF(NOT EXISTS "/home/fpopic/Desktop/bioinf-files/bioinf_git/bioinf/lib/sais-2.4.1/install_manifest.txt")
+IF(NOT EXISTS "/home/spidey/Gits/bioinf/bioinf/lib/sais-2.4.1/install_manifest.txt")
+  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"/home/spidey/Gits/bioinf/bioinf/lib/sais-2.4.1/install_manifest.txt\"")
+ENDIF(NOT EXISTS "/home/spidey/Gits/bioinf/bioinf/lib/sais-2.4.1/install_manifest.txt")
 
-FILE(READ "/home/fpopic/Desktop/bioinf-files/bioinf_git/bioinf/lib/sais-2.4.1/install_manifest.txt" files)
+FILE(READ "/home/spidey/Gits/bioinf/bioinf/lib/sais-2.4.1/install_manifest.txt" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 
 SET(NUM 0)
@@ -33,4 +33,4 @@ FOREACH(file ${files})
   MATH(EXPR NUM "1 + ${NUM}")
 ENDFOREACH(file)
 
-FILE(REMOVE "/home/fpopic/Desktop/bioinf-files/bioinf_git/bioinf/lib/sais-2.4.1/install_manifest.txt")
+FILE(REMOVE "/home/spidey/Gits/bioinf/bioinf/lib/sais-2.4.1/install_manifest.txt")

@@ -17,8 +17,8 @@ sudo make install
 
 ## Install sdsl-lite
 ```sh
-mkdir build
 cd CLONED_REPOSITORY_FOLDER/lib/sdsl-lite/
+mkdir build
 sudo ./install.sh /usr/local
 ```
 

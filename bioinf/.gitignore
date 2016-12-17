@@ -121,8 +121,8 @@ fabric.properties
 
 # Executables
 
-
 /bin/*
 /lib/sdsl-lite/build/
+/lib/sais-2.4.1/build/
 /bioinf_cpp_exe
 /cmake-build-debug/

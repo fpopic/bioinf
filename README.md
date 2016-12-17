@@ -18,8 +18,12 @@ sudo make install
 ## Install sdsl-lite
 ```sh
 cd CLONED_REPOSITORY_FOLDER/lib/sdsl-lite/
+mkdir build
 sudo ./install.sh /usr/local
 ```
+
+Ignore:
+WARNING: .git/hooks directory does not exists. The pre-commit hook is not installed.
 
 ## Folder structure after installation went successful:
 ![Solid](http://www.deviantpics.com/images/2016/12/16/Selection_135.png)

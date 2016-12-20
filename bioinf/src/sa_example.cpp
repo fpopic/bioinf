@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    ifstream in("input.txt", ifstream::binary | ifstream::ate);
+    ifstream in("res/input.txt", ifstream::binary | ifstream::ate);
     ios::sync_with_stdio(false);
     cin.rdbuf(in.rdbuf());
 
@@ -16,18 +16,18 @@ int main() {
     for (int i = 0; i < N; ++i) cin >> T[i];
 
     // izlaz
-    vector<char> bwt(N);
-    vector<int> temp(N);
+    vector<int> SA(N);
+    saisxx(T.begin(), SA.begin(), N);
 
-    int pindex = saisxx_bwt(T.begin(), bwt.begin(), temp.begin(), N);
 
     cout << "Input:\t";
     for (auto &c: T) cout << c;
-    cout << "\tN = " << N << endl;
+    cout << "\tN:" << N << endl;
 
-    cout << "BWT:\t";
-    for (auto &c : bwt) cout << c;
-    cout << "\tIndex of '$' = " << pindex << endl;
+    cout << "SA:";
+    for (auto &i : SA) cout << i << " ";
+    cout << endl << "'$' is " << N << "-th";
+    cout << endl;
 
     return 0;
 }

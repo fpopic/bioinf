@@ -22,6 +22,10 @@ add_subdirectory(test)
 
 # create run configs executable
 add_executable(bioinf.exe src/main.cpp)
+add_executable(bwt_example.exe src/bwt_example.cpp)
+add_executable(sa_example.exe src/sa_example.cpp)
 
 # add libraries to executable
 target_link_libraries(bioinf.exe mylib)
+target_link_libraries(bwt_example.exe mylib)
+target_link_libraries(sa_example.exe mylib)

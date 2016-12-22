@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 #include <sais.hxx>
 
+typedef int32_t integer;
+typedef int8_t character;
+
 using namespace std;
 
 int main() {

@@ -26,8 +26,25 @@ add_executable(bwt_example.exe src/bwt_example.cpp)
 add_executable(sa_example.exe src/sa_example.cpp)
 
 add_executable(sdsl_example.exe src/sdsl_example.cpp)
+add_executable(
+        playground.exe
+        src/playground.cpp
+        src/utility/utility.h
+        src/utility/utility.cpp
+)
+add_executable(
+        brujin_algorithms.exe
+        src/brujin_algorithms/brujin_algorithms.h
+        src/brujin_algorithms/brujin_algorithms.cpp
+        src/utility/utility.h
+        src/utility/utility.cpp
+)
 
 # add libraries to executable
 target_link_libraries(bioinf.exe mylib)
 
 target_link_libraries(sdsl_example.exe sdsl divsufsort divsufsort64)
+
+target_link_libraries(playground.exe sdsl divsufsort divsufsort64)
+
+target_link_libraries(brujin_algorithms.exe sdsl divsufsort divsufsort64)

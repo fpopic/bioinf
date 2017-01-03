@@ -80,14 +80,9 @@ vector<Node *> create_compress_graph(const uint64_t &k, csa_wt<> &csa, lcp_wt<> 
 
                 if (id != ground) {
                     graph[node->id]->successors.push_back(make_pair(node->id, rb - lb + 1)); //DRY
-                    graph[node->id]->lb = node->lb;
-                    graph[node->id]->rb = node->rb;
-                    graph[node->id]->len = node->len;
-                } else if (c <= 1) {
-                    graph[node->id]->lb = node->lb;
-                    graph[node->rb]->rb = node->rb;
-                    graph[node->id]->len = node->len;
-//                    start_nodes?
+//                    graph[node->id]->lb = node->lb;
+//                    graph[node->id]->rb = node->rb;
+//                    graph[node->id]->len = node->len;
                 } else if (not c <= 1) {
                     if (quantity == 1) {
                         extendable = true;
@@ -99,9 +94,9 @@ vector<Node *> create_compress_graph(const uint64_t &k, csa_wt<> &csa, lcp_wt<> 
                         graph.push_back(new_node);
 
                         graph[node->id]->successors.push_back(make_pair(node->id, rb - lb + 1)); //DRY
-                        graph[node->id]->lb = node->lb;
-                        graph[node->id]->rb = node->rb;
-                        graph[node->id]->len = node->len;
+//                        graph[node->id]->lb = node->lb;
+//                        graph[node->id]->rb = node->rb;
+//                        graph[node->id]->len = node->len;
 
                         queue.push(new_node);
                         counter++;
@@ -127,7 +122,7 @@ int main() {
     cout << "Brujin:" << endl;
     vector<Node *> brojin = create_compress_graph(3, csa, lcp);
     for (int i = 0; i < brojin.size(); ++i) {
-        cout << brojin[i]->id << endl;
+        cout << brojin[i]->lb << " " << brojin[i]->rb << endl;
     }
     cout << endl;
     //endregion

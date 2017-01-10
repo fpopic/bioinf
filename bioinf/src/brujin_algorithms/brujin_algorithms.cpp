@@ -66,25 +66,22 @@ vector<Node *> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<>
             extendable = false;
             interval_symbols(wta, node->lb, node->rb + 1, quantity, cs, rank_c_i, rank_c_j);
 
-            for (uint64_t i = 0; i < quantity; ++i) {
-                uint8_t c = cs[i]; // Onaj u lijevo za jedan.
-                uint64_t lb = lex_smaller_table[c] + rank_c_i[i];
-                uint64_t rb = lex_smaller_table[c] + rank_c_j[i] - 1;
+            for (uint64_t iter = 0; iter < quantity; ++iter) {
+                uint8_t c = cs[iter]; // Onaj u lijevo za jedan.
+                uint64_t lb = lex_smaller_table[c] + rank_c_i[iter];
+                uint64_t rb = lex_smaller_table[c] + rank_c_j[iter] - 1;
                 uint64_t ones = bv_rank(lb + 1);
                 uint64_t id;
 
-                if (ones % 2 == 0 and B[i] == 0) {
+                if (ones % 2 == 0 and B[lb] == 0) {
                     id = ground;
                 } else {
                     id = (ones + 1) / 2;
                 }
 
                 if (id != ground) {
-//                    graph[node->id]->successors.push_back(make_pair(node->id, rb - lb + 1)); //DRY
-//                    graph[node->id]->lb = node->lb;
-//                    graph[node->id]->rb = node->rb;
-//                    graph[node->id]->len = node->len;
-                } else if (not c <= 1) {
+//                    Add edge!
+                } else if (c > 1) {
                     if (quantity == 1) {
                         extendable = true;
                         node->len++;
@@ -94,10 +91,7 @@ vector<Node *> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<>
                         Node *new_node = new Node(counter, lb, rb, k);
                         graph.push_back(new_node);
 
-//                        graph[node->id]->successors.push_back(make_pair(node->id, rb - lb + 1)); //DRY
-//                        graph[node->id]->lb = node->lb;
-//                        graph[node->id]->rb = node->rb;
-//                        graph[node->id]->len = node->len;
+//                        Add edge!
 
                         queue.push(new_node);
                         counter++;

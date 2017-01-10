@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sdsl/suffix_arrays.hpp>
 #include <sdsl/lcp.hpp>
+#include <sais.hxx>
 
 using namespace std;
 using namespace sdsl;
@@ -112,18 +113,31 @@ vector<Node *> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<>
 int main() {
     string input_string = "ACTACGTACGTACG"; // Notice no explicit dollar!
 
+//    BWT construction
+    string bwt(input_string.size(), ' ');
+    vector<int> temp(input_string.size());
+    int btw_dollar_index =
+            saisxx_bwt(input_string.begin(), bwt.begin(), temp.begin(), (int) input_string.size());
+
+    bwt.insert(btw_dollar_index, 1, 1);
+
+    cout << bwt << endl;
+
     wt_huff<> wta;
-    construct_im(wta, input_string, 1);
+    construct_im(wta, bwt, 1);
 
     //region GET_INTERVALS
     lcp_wt<> lcp;
     construct_im(lcp, input_string, 1);
 
-    cout << "Brujin:" << endl;
+//    cout << "Brujin:" << endl;
     vector<Node *> brojin = create_compress_graph(3, wta, lcp);
     for (int i = 0; i < brojin.size(); ++i) {
         cout << brojin[i]->lb << " " << brojin[i]->rb << endl;
     }
     cout << endl;
     //endregion
+
+    cout << "DENIIII" << endl;
+    cout << wta << endl;
 }

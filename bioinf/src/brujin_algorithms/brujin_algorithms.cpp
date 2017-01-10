@@ -8,23 +8,23 @@ using namespace std;
 using namespace sdsl;
 
 // Algorithm1.
-vector<Node *> create_compress_graph(const uint64_t &k, csa_wt<> &csa, lcp_wt<> &lcp) {
+vector<Node *> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<> &lcp) {
     bool open = false;
     uint64_t counter = 1;
 
     vector<Node *> graph;
     queue<Node *> queue;
 
-    bit_vector B(csa.size(), 0);
+    bit_vector B(wta.size(), 0);
 
     vector<uint64_t> lex_smaller_table(256, 0);
     for (uint64_t i = 0, sum = 0; i < 256; ++i) {
         lex_smaller_table[i] = sum;
-        sum += csa.wavelet_tree.rank(csa.wavelet_tree.size(), i);
+        sum += wta.rank(wta.size(), i);
     }
 
 //    lb will be initialized, I promise. See line below.
-    for (uint64_t i = 0, lb; i < csa.size(); ++i) {
+    for (uint64_t i = 0, lb; i < wta.size(); ++i) {
         if (lcp[i] < k and open) {
             open = false;
             B[i - 1] = 1;
@@ -46,16 +46,16 @@ vector<Node *> create_compress_graph(const uint64_t &k, csa_wt<> &csa, lcp_wt<> 
     bit_vector::rank_1_type bv_rank;
     util::init_support(bv_rank, &B);
 
-    Node *stop_node = new Node(counter, 1, 1, 1);
+    Node *stop_node = new Node(counter, 0, 0, 1);
     graph.push_back(stop_node); // Add stopnode.
     queue.push(stop_node);
     counter++;
 
 //    PASS
     uint64_t quantity;
-    vector<uint8_t> cs(csa.wavelet_tree.sigma);
-    vector<uint64_t> rank_c_i(csa.wavelet_tree.sigma);
-    vector<uint64_t> rank_c_j(csa.wavelet_tree.sigma);
+    vector<uint8_t> cs(wta.sigma);
+    vector<uint64_t> rank_c_i(wta.sigma);
+    vector<uint64_t> rank_c_j(wta.sigma);
     while (not queue.empty()) {
         Node *node = queue.front();
         queue.pop();
@@ -63,7 +63,7 @@ vector<Node *> create_compress_graph(const uint64_t &k, csa_wt<> &csa, lcp_wt<> 
 
         do { // "repeat"
             extendable = false;
-            interval_symbols(csa.wavelet_tree, node->lb, node->rb, quantity, cs, rank_c_i, rank_c_j);
+            interval_symbols(wta, node->lb, node->rb + 1, quantity, cs, rank_c_i, rank_c_j);
 
             for (uint64_t i = 0; i < quantity; ++i) {
                 uint8_t c = cs[i]; // Onaj u lijevo za jedan.
@@ -79,7 +79,7 @@ vector<Node *> create_compress_graph(const uint64_t &k, csa_wt<> &csa, lcp_wt<> 
                 }
 
                 if (id != ground) {
-                    graph[node->id]->successors.push_back(make_pair(node->id, rb - lb + 1)); //DRY
+//                    graph[node->id]->successors.push_back(make_pair(node->id, rb - lb + 1)); //DRY
 //                    graph[node->id]->lb = node->lb;
 //                    graph[node->id]->rb = node->rb;
 //                    graph[node->id]->len = node->len;
@@ -93,7 +93,7 @@ vector<Node *> create_compress_graph(const uint64_t &k, csa_wt<> &csa, lcp_wt<> 
                         Node *new_node = new Node(counter, lb, rb, k);
                         graph.push_back(new_node);
 
-                        graph[node->id]->successors.push_back(make_pair(node->id, rb - lb + 1)); //DRY
+//                        graph[node->id]->successors.push_back(make_pair(node->id, rb - lb + 1)); //DRY
 //                        graph[node->id]->lb = node->lb;
 //                        graph[node->id]->rb = node->rb;
 //                        graph[node->id]->len = node->len;
@@ -112,15 +112,15 @@ vector<Node *> create_compress_graph(const uint64_t &k, csa_wt<> &csa, lcp_wt<> 
 int main() {
     string input_string = "ACTACGTACGTACG"; // Notice no explicit dollar!
 
-    csa_wt<> csa;
-    construct_im(csa, input_string, 1);
+    wt_huff<> wta;
+    construct_im(wta, input_string, 1);
 
     //region GET_INTERVALS
     lcp_wt<> lcp;
     construct_im(lcp, input_string, 1);
 
     cout << "Brujin:" << endl;
-    vector<Node *> brojin = create_compress_graph(3, csa, lcp);
+    vector<Node *> brojin = create_compress_graph(3, wta, lcp);
     for (int i = 0; i < brojin.size(); ++i) {
         cout << brojin[i]->lb << " " << brojin[i]->rb << endl;
     }

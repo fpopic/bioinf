@@ -9,11 +9,12 @@ using namespace std;
 using namespace sdsl;
 
 // Algorithm1.
-vector<Node *> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<> &lcp) {
+pair<vector<Node *>, vector<Edge>> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<> &lcp) {
     bool open = false;
     uint64_t counter = 1;
 
     vector<Node *> graph;
+    vector<Edge> edges;
     queue<Node *> queue;
 
     bit_vector B(wta.size(), 0);
@@ -80,7 +81,7 @@ vector<Node *> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<>
                 }
 
                 if (id != ground) {
-//                    Add edge!
+                    edges.push_back(Edge(id, node->id, rb - lb + 1));
                 } else if (c > 1) {
                     if (quantity == 1) {
                         extendable = true;
@@ -90,8 +91,7 @@ vector<Node *> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<>
                     } else {
                         Node *new_node = new Node(counter, lb, rb, k);
                         graph.push_back(new_node);
-
-//                        Add edge!
+                        edges.push_back(Edge(counter, node->id, rb - lb + 1));
 
                         queue.push(new_node);
                         counter++;
@@ -100,7 +100,8 @@ vector<Node *> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<>
             }
         } while (extendable);
     }
-    return graph;
+
+    return make_pair(graph, edges);
 }
 
 // Only for development purposes. When the project is done this may as well be deleted.
@@ -124,14 +125,19 @@ int main() {
     lcp_wt<> lcp;
     construct_im(lcp, input_string, 1);
 
-//    cout << "Brujin:" << endl;
-    vector<Node *> brojin = create_compress_graph(3, wta, lcp);
+    cout << "Vertices:" << endl;
+    pair<vector<Node *>, vector<Edge>> graph_edges = create_compress_graph(3, wta, lcp);
+    vector<Node *> brojin = graph_edges.first;
     for (int i = 0; i < brojin.size(); ++i) {
-        cout << brojin[i]->lb << " " << brojin[i]->rb << endl;
+        cout << brojin[i]->id << " " << brojin[i]->lb << " " << brojin[i]->rb << endl;
+    }
+    cout << endl;
+
+    cout << "Edges:" << endl;
+    vector<Edge> edges = graph_edges.second;
+    for (int i = 0; i < edges.size(); ++i) {
+        cout << edges[i] << endl;
     }
     cout << endl;
     //endregion
-
-    cout << "DENIIII" << endl;
-    cout << wta << endl;
 }

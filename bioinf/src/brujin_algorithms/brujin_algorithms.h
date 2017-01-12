@@ -21,6 +21,8 @@ struct Node {
     uint64_t lb;
     uint64_t rb;
     uint64_t len;
+    vector<int> adjList;
+    vector<int> posList;
 
     Node(uint64_t id, uint64_t lb, uint64_t rb, uint64_t len) : id(id), lb(lb), rb(rb), len(len) {}
 

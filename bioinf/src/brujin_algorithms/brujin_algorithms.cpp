@@ -82,6 +82,7 @@ pair<vector<Node *>, vector<Edge>> create_compress_graph(const uint64_t &k, wt_h
 
                 if (id != ground) {
                     edges.push_back(Edge(id, node->id, rb - lb + 1));
+                    cout << "Added edge:"<< id << " " << node->id << " " << rb - lb + 1 << endl;
                 } else if (c > 1) {
                     if (quantity == 1) {
                         extendable = true;
@@ -92,6 +93,7 @@ pair<vector<Node *>, vector<Edge>> create_compress_graph(const uint64_t &k, wt_h
                         Node *new_node = new Node(counter, lb, rb, k);
                         graph.push_back(new_node);
                         edges.push_back(Edge(counter, node->id, rb - lb + 1));
+                        cout << "Added edge:"<< counter << " " << node->id << " " << rb - lb + 1 << endl;
 
                         queue.push(new_node);
                         counter++;
@@ -104,10 +106,35 @@ pair<vector<Node *>, vector<Edge>> create_compress_graph(const uint64_t &k, wt_h
     return make_pair(graph, edges);
 }
 
+void finishGraphA1(vector<Node*> &graph, vector<Edge> &edges, csa_bitcompressed<> &csa) {
+    
+    for (auto edge: edges) {
+        Node * start_node = graph[edge.start-1];
+        for (int i = 0; i < edge.multiplicity; ++i) {
+            start_node->adjList.push_back(edge.end);
+        }
+    }
+    for (auto node: graph) {
+        for (int i = node->lb; i <= node->rb; ++i) {
+            node->posList.push_back(csa[i]);
+        }
+        sort(node->posList.begin(), node->posList.end(), std::greater<int>());
+    }
+}
+
+
 // Only for development purposes. When the project is done this may as well be deleted.
 int main() {
     string input_string = "ACTACGTACGTACG"; // Notice no explicit dollar!
 
+    csa_bitcompressed<> csa;
+    construct_im(csa, input_string, 1);
+    //cout << "csa.size(): " << csa.size() << endl;
+    //cout << "csa.sigma : " << csa.sigma << endl;
+    //cout << csa[5] << endl;
+    //cout << csa << endl;  // output CSA
+    //cout << extract(csa, 0, csa.size()-1) << endl;
+    //cout << csa[8] << endl;
 //    BWT construction
     string bwt(input_string.size(), ' ');
     vector<int> temp(input_string.size());
@@ -128,13 +155,23 @@ int main() {
     cout << "Vertices:" << endl;
     pair<vector<Node *>, vector<Edge>> graph_edges = create_compress_graph(3, wta, lcp);
     vector<Node *> brojin = graph_edges.first;
+    vector<Edge> edges = graph_edges.second;
+    finishGraph(brojin, edges, csa);
     for (int i = 0; i < brojin.size(); ++i) {
         cout << brojin[i]->id << " " << brojin[i]->lb << " " << brojin[i]->rb << endl;
+        cout << "AdjList: ";
+        for (int j = 0; j < brojin[i]->adjList.size(); ++j) {
+            cout << brojin[i]->adjList[j] << " ";
+        }
+        cout << endl << "PosList: ";
+        for (int j = 0; j < brojin[i]->posList.size(); ++j) {
+            cout << brojin[i]->posList[j] << " ";
+        }
+        cout << endl;
     }
     cout << endl;
 
     cout << "Edges:" << endl;
-    vector<Edge> edges = graph_edges.second;
     for (int i = 0; i < edges.size(); ++i) {
         cout << edges[i] << endl;
     }

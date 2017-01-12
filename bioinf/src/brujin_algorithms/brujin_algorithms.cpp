@@ -82,7 +82,6 @@ pair<vector<Node *>, vector<Edge>> create_compress_graph(const uint64_t &k, wt_h
 
                 if (id != ground) {
                     edges.push_back(Edge(id, node->id, rb - lb + 1));
-                    cout << "Added edge:"<< id << " " << node->id << " " << rb - lb + 1 << endl;
                 } else if (c > 1) {
                     if (quantity == 1) {
                         extendable = true;
@@ -93,7 +92,6 @@ pair<vector<Node *>, vector<Edge>> create_compress_graph(const uint64_t &k, wt_h
                         Node *new_node = new Node(counter, lb, rb, k);
                         graph.push_back(new_node);
                         edges.push_back(Edge(counter, node->id, rb - lb + 1));
-                        cout << "Added edge:"<< counter << " " << node->id << " " << rb - lb + 1 << endl;
 
                         queue.push(new_node);
                         counter++;
@@ -122,6 +120,26 @@ void finishGraphA1(vector<Node*> &graph, vector<Edge> &edges, csa_bitcompressed<
     }
 }
 
+void finishGraphA2(vector<Node*> &graph, csa_bitcompressed<> &csa) {
+    vector<int> A(csa.size(), -1);
+    for (int i = 0; i < graph.size(); ++i) {
+        Node* node = graph[i];
+        for (int j = node->lb; j <= node->rb; ++j) {
+            A[csa[j]] = i;
+        }
+    }
+    int index = A[0];
+    Node* node = graph[index];
+    node->posList.push_back(0);
+    for (int j = 1; j < csa.size(); ++j) {
+        int i = A[j];
+        if (i != -1) {
+            node->adjList.push_back(i+1);
+            node = graph[i];
+            node->posList.push_back(j);
+        }
+    }
+}
 
 // Only for development purposes. When the project is done this may as well be deleted.
 int main() {
@@ -156,7 +174,8 @@ int main() {
     pair<vector<Node *>, vector<Edge>> graph_edges = create_compress_graph(3, wta, lcp);
     vector<Node *> brojin = graph_edges.first;
     vector<Edge> edges = graph_edges.second;
-    finishGraph(brojin, edges, csa);
+
+    finishGraphA2(brojin, csa);
     for (int i = 0; i < brojin.size(); ++i) {
         cout << brojin[i]->id << " " << brojin[i]->lb << " " << brojin[i]->rb << endl;
         cout << "AdjList: ";

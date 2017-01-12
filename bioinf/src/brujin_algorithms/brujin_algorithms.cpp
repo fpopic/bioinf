@@ -116,7 +116,8 @@ void finishGraphA1(vector<Node*> &graph, vector<Edge> &edges, csa_bitcompressed<
         for (int i = node->lb; i <= node->rb; ++i) {
             node->posList.push_back(csa[i]);
         }
-        sort(node->posList.begin(), node->posList.end(), std::greater<int>());
+        sort(node->posList.begin(), node->posList.end());
+        reverse(node->adjList.begin(), node->adjList.end());
     }
 }
 
@@ -175,7 +176,8 @@ int main() {
     vector<Node *> brojin = graph_edges.first;
     vector<Edge> edges = graph_edges.second;
 
-    finishGraphA2(brojin, csa);
+    //finishGraphA2(brojin, csa);
+    finishGraphA1(brojin, edges, csa);
     for (int i = 0; i < brojin.size(); ++i) {
         cout << brojin[i]->id << " " << brojin[i]->lb << " " << brojin[i]->rb << endl;
         cout << "AdjList: ";

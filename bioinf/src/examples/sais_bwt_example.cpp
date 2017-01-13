@@ -6,6 +6,14 @@ typedef int8_t character;
 
 using namespace std;
 
+/* http://www.allisons.org/ll/AlgDS/Strings/BWT/
+refStr      = mississippi
+suffix array= 11,10,7,4,1,0,9,8,6,3,5,2
+BWT refStr  = ipssm$pissii
+recover bwt = mississippi$
+locate(0...): 11,10,7,4,1,0,9,8,6,3,5,2,
+*/
+
 int main() {
     ifstream in("res/input.txt", ifstream::binary | ifstream::ate);
     ios::sync_with_stdio(false);
@@ -35,10 +43,3 @@ int main() {
     return 0;
 }
 
-/* http://www.allisons.org/ll/AlgDS/Strings/BWT/
-refStr      = mississippi
-suffix array= 11,10,7,4,1,0,9,8,6,3,5,2
-BWT refStr  = ipssm$pissii
-recover bwt = mississippi$
-locate(0...): 11,10,7,4,1,0,9,8,6,3,5,2,
-*/

@@ -10,6 +10,8 @@
 #include <sdsl/lcp.hpp>
 #include <sais.hxx>
 
+#include "de_bruijin_graph.h"
+
 using namespace std;
 using namespace sdsl;
 
@@ -21,33 +23,19 @@ const char alphabet[alphabet_index + 1] = {'$', 'T', 'G', 'C', 'A'};
 
 const uint64_t ground = numeric_limits<uint64_t>::max();
 
-struct Node {
-    uint64_t id;
-    uint64_t lb;
-    uint64_t rb;
-    uint64_t len;
-    vector<uint64_t> adjList;
-    vector<uint64_t> posList;
+class DeBruijinAlgorithms {
 
-    Node(uint64_t id, uint64_t lb, uint64_t rb, uint64_t len) : id(id), lb(lb), rb(rb), len(len) {}
+public:
 
-    friend ostream& operator<<(ostream& os, const Node& node) {
-        os << "id: " << node.id << " lb: " << node.lb << " rb: " << node.rb << " len: " << node.len;
-        return os;
-    }
-};
+    //Algorithm1
+    static pair<vector<Node*>, vector<Edge>> create_compress_graph(const uint64_t& k, wt_huff<>& wta, lcp_wt<>& lcp);
 
-struct Edge {
-    uint64_t start;
-    uint64_t end;
-    uint64_t multiplicity;
+    //A1
+    static void finishGraphA1(vector<Node*>& graph, vector<Edge>& edges, csa_bitcompressed<>& csa);
 
-    Edge(uint64_t start, uint64_t end, uint64_t multiplicity) : start(start), end(end), multiplicity(multiplicity) {}
+    //A2
+    static void finishGraphA2(vector<Node*>& graph, csa_bitcompressed<>& csa);
 
-    friend ostream& operator<<(ostream& os, const Edge& edge) {
-        os << "start: " << edge.start << " end: " << edge.end << " multiplicity: " << edge.multiplicity;
-        return os;
-    }
 };
 
 #endif //BIOINF_PROJECT_BRUJIN_ALGORITHMS_H

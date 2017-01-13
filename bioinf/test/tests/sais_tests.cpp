@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <sais.hxx>
+#include <fstream>
 
 using namespace std;
 
@@ -38,4 +39,9 @@ TEST(sais_checks, sais) {
     saisxx(input.begin(), actual.begin(), N);
 
     EXPECT_EQ(actual, expected);
+}
+
+TEST(diff_test, file){
+    ifstream in1("");
+    ifstream in2("");
 }

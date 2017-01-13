@@ -21,7 +21,9 @@ add_subdirectory(lib/mylib)
 add_subdirectory(test)
 
 # create run configs executable
-add_executable(brujin_algorithms.exe src/algorithms/brujin_algorithms.cpp src/utility/utility.cpp)
+add_executable(main_graph.exe src/main.cpp src/algorithms/de_bruijin_graph.cpp src/algorithms/brujin_algorithms.cpp)
+
+add_executable(brujin_algorithms.exe src/algorithms/de_bruijin_graph.cpp src/algorithms/brujin_algorithms.cpp src/utility/utility.cpp)
 add_executable(playground.exe src/playground.cpp src/utility/utility.cpp)
 
 add_executable(sais_bwt_example.exe src/examples/sais_bwt_example.cpp)
@@ -32,6 +34,8 @@ add_executable(sdsl_interval_symbols.exe src/examples/sdsl_interval_symbols.cpp)
 
 
 # add libraries to executable
+target_link_libraries(main_graph.exe sdsl divsufsort divsufsort64)
+
 target_link_libraries(brujin_algorithms.exe sdsl divsufsort divsufsort64)
 target_link_libraries(playground.exe sdsl divsufsort divsufsort64)
 

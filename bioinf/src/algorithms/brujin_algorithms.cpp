@@ -1,7 +1,8 @@
 #include "brujin_algorithms.h"
 
-// Algorithm1.
-pair<vector<Node*>, vector<Edge>> create_compress_graph(const uint64_t& k, wt_huff<>& wta, lcp_wt<>& lcp) {
+
+
+pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(const uint64_t& k, wt_huff<>& wta, lcp_wt<>& lcp) {
     bool open = false;
     uint64_t counter = 0;
 
@@ -98,7 +99,7 @@ pair<vector<Node*>, vector<Edge>> create_compress_graph(const uint64_t& k, wt_hu
     return make_pair(graph, edges);
 }
 
-void finishGraphA1(vector<Node*>& graph, vector<Edge>& edges, csa_bitcompressed<>& csa) {
+void DeBruijinAlgorithms::finishGraphA1(vector<Node*>& graph, vector<Edge>& edges, csa_bitcompressed<>& csa) {
 
     for (Edge& edge: edges) {
         Node* start_node = graph[edge.start];
@@ -116,7 +117,7 @@ void finishGraphA1(vector<Node*>& graph, vector<Edge>& edges, csa_bitcompressed<
     }
 }
 
-void finishGraphA2(vector<Node*>& graph, csa_bitcompressed<>& csa) {
+void DeBruijinAlgorithms::finishGraphA2(vector<Node*>& graph, csa_bitcompressed<>& csa) {
     vector<uint64_t> A(csa.size(), -1);
     for (uint64_t i = 0; i < graph.size(); ++i) {
         Node* node = graph[i];
@@ -135,59 +136,4 @@ void finishGraphA2(vector<Node*>& graph, csa_bitcompressed<>& csa) {
             node->posList.push_back(j);
         }
     }
-}
-
-void printGraph(vector<Node*>& vertices) {
-    cout << "digraph G {" << endl;
-    for (int i = 0; i < vertices.size(); ++i) {
-        Node* v = vertices[i];
-
-        cout << "  " << v->id << " [label=\"";
-
-        for (int j = 0; j < v->posList.size(); ++j) {
-            cout << v->posList[j] + 1;
-            if (j != v->posList.size() - 1) {
-                cout << ",";
-            }
-        }
-        cout << ":" << v->len << "\"]" << endl;
-
-        for (int j = 0; j < v->adjList.size(); ++j) {
-            cout << "  " << v->id << " -> " << v->adjList[j] << endl;
-        }
-    }
-    cout << "}";
-    cout << endl;
-}
-
-// Only for development purposes. When the project is done this may as well be deleted.
-int main() {
-    string S = "ACTACGTACGTACG"; // Notice no explicit dollar!
-//    cout << "S:" << S << endl;
-
-    // CSA
-    csa_bitcompressed<> csa;
-    construct_im(csa, S, 1);
-
-    // BWT
-    string bwt(S.size(), ' ');
-    vector<int> temp(S.size());
-    auto bwt_dollar = saisxx_bwt(S.begin(), bwt.begin(), temp.begin(), (int) S.size());
-    bwt.insert(bwt_dollar, 1, 1);
-//    cout << "BWT:" << bwt << endl;
-
-    wt_huff<> wta;
-    construct_im(wta, bwt, 1);
-
-    lcp_wt<> lcp;
-    construct_im(lcp, S, 1);
-
-    auto graph_edges = create_compress_graph(3, wta, lcp);
-    vector<Node*> vertices = graph_edges.first;
-    vector<Edge> edges = graph_edges.second;
-
-    //finishGraphA2(vertices, csa);
-    finishGraphA1(vertices, edges, csa);
-
-    printGraph(vertices);
 }

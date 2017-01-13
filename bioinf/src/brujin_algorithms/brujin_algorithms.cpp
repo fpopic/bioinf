@@ -11,7 +11,7 @@ using namespace sdsl;
 // Algorithm1.
 pair<vector<Node *>, vector<Edge>> create_compress_graph(const uint64_t &k, wt_huff<> &wta, lcp_wt<> &lcp) {
     bool open = false;
-    uint64_t counter = 1;
+    uint64_t counter = 0;
 
     vector<Node *> graph;
     vector<Edge> edges;
@@ -81,7 +81,7 @@ pair<vector<Node *>, vector<Edge>> create_compress_graph(const uint64_t &k, wt_h
                 }
 
                 if (id != ground) {
-                    edges.push_back(Edge(id, node->id, rb - lb + 1));
+                    edges.push_back(Edge(id-1, node->id, rb - lb + 1));
                 } else if (c > 1) {
                     if (quantity == 1) {
                         extendable = true;
@@ -107,7 +107,7 @@ pair<vector<Node *>, vector<Edge>> create_compress_graph(const uint64_t &k, wt_h
 void finishGraphA1(vector<Node*> &graph, vector<Edge> &edges, csa_bitcompressed<> &csa) {
     
     for (auto edge: edges) {
-        Node * start_node = graph[edge.start-1];
+        Node * start_node = graph[edge.start];
         for (int i = 0; i < edge.multiplicity; ++i) {
             start_node->adjList.push_back(edge.end);
         }
@@ -135,7 +135,7 @@ void finishGraphA2(vector<Node*> &graph, csa_bitcompressed<> &csa) {
     for (int j = 1; j < csa.size(); ++j) {
         int i = A[j];
         if (i != -1) {
-            node->adjList.push_back(i+1);
+            node->adjList.push_back(i);
             node = graph[i];
             node->posList.push_back(j);
         }

@@ -18,7 +18,8 @@ pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(con
         sum += wta.rank(wta.size(), i);
     }
 
-    for (uint64_t i = 0, lb = 0; i < wta.size(); ++i) {
+    int lb = 0;
+    for (uint64_t i = 0; i < wta.size(); ++i) {
         if (lcp[i] < k and open) {
             open = false;
             B[i - 1] = 1;
@@ -37,6 +38,14 @@ pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(con
             lb = i;
         }
     }
+    if (open) {
+      Node *node = new Node(counter, lb, wta.size() - 1, k); // DRY
+      graph.push_back(node);
+      queue.push(node);
+      B[wta.size()-1] = 1;
+      counter++;
+    }
+
 
     bit_vector::rank_1_type bv_rank;
     util::init_support(bv_rank, &B);

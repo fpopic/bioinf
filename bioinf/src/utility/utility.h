@@ -6,15 +6,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
 template<typename T>
-void print_vector(vector<T> const &vec, char delimiter = ' ') {
-    for (auto element : vec) {
-        cout << element << delimiter;
-    }
-    cout << endl;
-}
+void print_vector(vector<T> const& vec, char delimiter = ' ');
+
+string parse_fast_a(string file_name);
+
 
 #endif //BIOINF_PROJECT_UTILITY_H

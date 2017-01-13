@@ -21,7 +21,7 @@ const int alphabet_index = 4;
 /** Algorithms need this to exist. Sorted alphabet of possible letters. */
 const char alphabet[alphabet_index + 1] = {'$', 'T', 'G', 'C', 'A'};
 
-const uint64_t ground = numeric_limits<uint64_t>::max();
+const uint64_t GND = numeric_limits<uint64_t>::max();
 
 class DeBruijinAlgorithms {
 

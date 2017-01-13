@@ -21,7 +21,7 @@ add_subdirectory(lib/mylib)
 add_subdirectory(test)
 
 # create run configs executable
-add_executable(main_graph.exe src/main.cpp src/algorithms/de_bruijin_graph.cpp src/algorithms/brujin_algorithms.cpp)
+add_executable(main_graph.exe src/main.cpp src/algorithms/de_bruijin_graph.cpp src/algorithms/brujin_algorithms.cpp src/utility/utility.cpp)
 
 add_executable(brujin_algorithms.exe src/algorithms/de_bruijin_graph.cpp src/algorithms/brujin_algorithms.cpp src/utility/utility.cpp)
 add_executable(playground.exe src/playground.cpp src/utility/utility.cpp)

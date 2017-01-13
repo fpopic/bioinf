@@ -1,7 +1,6 @@
 #include "brujin_algorithms.h"
 
 
-
 pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(const uint64_t& k, wt_huff<>& wta, lcp_wt<>& lcp) {
     bool open = false;
     uint64_t counter = 0;
@@ -18,12 +17,11 @@ pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(con
         sum += wta.rank(wta.size(), i);
     }
 
-    int lb = 0;
+    uint64_t lb = 0;
     for (uint64_t i = 0; i < wta.size(); ++i) {
         if (lcp[i] < k and open) {
             open = false;
             B[i - 1] = 1;
-
             Node* node = new Node(counter, lb, i - 1, k); // DRY
             graph.push_back(node);
             queue.push(node);
@@ -39,21 +37,28 @@ pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(con
         }
     }
     if (open) {
-      Node *node = new Node(counter, lb, wta.size() - 1, k); // DRY
-      graph.push_back(node);
-      queue.push(node);
-      B[wta.size()-1] = 1;
-      counter++;
+        Node* node = new Node(counter, lb, wta.size() - 1, k); // DRY
+        graph.push_back(node);
+        queue.push(node);
+        B[wta.size() - 1] = 1;
+        counter++;
     }
-
 
     bit_vector::rank_1_type bv_rank;
     util::init_support(bv_rank, &B);
 
-    Node* stop_node = new Node(counter, 0, 0, 1);
-    graph.push_back(stop_node); // Add stopnode.
-    queue.push(stop_node);
-    counter++;
+    // region Adding stop nodes
+//    Node* stop_node = new Node(counter, 0, 0, 1);
+//    graph.push_back(stop_node);
+//    queue.push(stop_node);
+//    counter++;
+    for (uint64_t i = lex_smaller_table[1]; i < lex_smaller_table[2]; ++i) {
+        Node* stop_node = new Node(counter, i, i, 1, true);
+        graph.push_back(stop_node);
+        queue.push(stop_node);
+        counter++;
+    }
+    //endregion
 
     uint64_t quantity;
     vector<uint8_t> cs(wta.sigma);
@@ -76,13 +81,13 @@ pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(con
                 uint64_t id;
 
                 if (ones % 2 == 0 and B[lb] == 0) {
-                    id = ground;
+                    id = GND;
                 }
                 else {
                     id = (ones + 1) / 2;
                 }
 
-                if (id != ground) {
+                if (id != GND) {
                     edges.push_back(Edge(id - 1, node->id, rb - lb + 1));
                 }
                 else if (c > 1) {
@@ -140,7 +145,8 @@ void DeBruijinAlgorithms::finishGraphA2(vector<Node*>& graph, csa_bitcompressed<
     for (uint64_t j = 1; j < csa.size(); ++j) {
         uint64_t i = A[j];
         if (i != -1) {
-            node->adjList.push_back(i);
+            if (!node->is_exit)
+                node->adjList.push_back(i);
             node = graph[i];
             node->posList.push_back(j);
         }

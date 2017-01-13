@@ -20,8 +20,9 @@ struct Node {
     uint64_t len;
     vector<uint64_t> adjList;
     vector<uint64_t> posList;
+    bool is_exit;
 
-    Node(uint64_t id, uint64_t lb, uint64_t rb, uint64_t len) : id(id), lb(lb), rb(rb), len(len) {}
+    Node(uint64_t id, uint64_t lb, uint64_t rb, uint64_t len, bool is_exit = false) : id(id), lb(lb), rb(rb), len(len), is_exit(is_exit) {}
 
     friend ostream& operator<<(ostream& os, const Node& node) {
         os << "id: " << node.id << " lb: " << node.lb << " rb: " << node.rb << " len: " << node.len;

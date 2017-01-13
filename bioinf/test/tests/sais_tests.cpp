@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <sais.hxx>
 #include <fstream>
+#include "../../src/algorithms/de_bruijin_graph.h"
 
 using namespace std;
 
@@ -44,4 +45,6 @@ TEST(sais_checks, sais) {
 TEST(diff_test, file){
     ifstream in1("");
     ifstream in2("");
+
+
 }

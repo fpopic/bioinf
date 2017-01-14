@@ -1,7 +1,12 @@
-#include "brujin_algorithms.h"
+#include "construction_algorithms.h"
 
+const uint64_t ConstructionAlgorithms::GND = numeric_limits<uint64_t>::max();
 
-pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(const uint64_t& k, wt_huff<>& wta, lcp_wt<>& lcp) {
+/*
+ * Created by Deni Munjas, Filip Popic
+ */
+pair<vector<Node*>, vector<Edge>>
+ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff<>& wta, const lcp_wt<>& lcp) {
     bool open = false;
     uint64_t counter = 0;
 
@@ -18,7 +23,7 @@ pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(con
     }
 
     uint64_t lb = 0;
-    for (uint64_t i = 0; i < wta.size(); ++i) {
+    for (uint64_t i = 0 ; i < wta.size(); ++i) {
         if (lcp[i] < k and open) {
             open = false;
             B[i - 1] = 1;
@@ -69,7 +74,7 @@ pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(con
         queue.pop();
         bool extendable;
 
-        do { // "repeat"
+        do {
             extendable = false;
             interval_symbols(wta, node->lb, node->rb + 1, quantity, cs, rank_c_i, rank_c_j);
 
@@ -113,15 +118,17 @@ pair<vector<Node*>, vector<Edge>> DeBruijinAlgorithms::create_compress_graph(con
     return make_pair(graph, edges);
 }
 
-void DeBruijinAlgorithms::finishGraphA1(vector<Node*>& graph, vector<Edge>& edges, csa_bitcompressed<>& csa) {
-
-    for (Edge& edge: edges) {
-        Node* start_node = graph[edge.start];
+/*
+ * Created by Dario Smolcic
+ */
+void ConstructionAlgorithms::finish_graph_A1(const csa_bitcompressed<>& csa, vector<Node*>& vertices, const vector<Edge>& edges) {
+    for (const Edge& edge: edges) {
+        Node* start_node = vertices[edge.start];
         for (int i = 0; i < edge.multiplicity; ++i) {
             start_node->adjList.push_back(edge.end);
         }
     }
-    for (auto node: graph) {
+    for (Node* node: vertices) {
         for (uint64_t i = node->lb; i <= node->rb; ++i) {
             auto csa_i = csa[i];
             node->posList.push_back(csa_i);
@@ -131,24 +138,44 @@ void DeBruijinAlgorithms::finishGraphA1(vector<Node*>& graph, vector<Edge>& edge
     }
 }
 
-void DeBruijinAlgorithms::finishGraphA2(vector<Node*>& graph, csa_bitcompressed<>& csa) {
+/*
+ * Created by Dario Smolcic
+ */
+void ConstructionAlgorithms::finish_graph_A2(const csa_bitcompressed<>& csa, vector<Node*>& vertices) {
     vector<uint64_t> A(csa.size(), -1);
-    for (uint64_t i = 0; i < graph.size(); ++i) {
-        Node* node = graph[i];
+    for (uint64_t i = 0; i < vertices.size(); ++i) {
+        Node* node = vertices[i];
         for (uint64_t j = node->lb; j <= node->rb; ++j) {
             A[csa[j]] = i;
         }
     }
-    uint64_t index = A[0];
-    Node* node = graph[index];
+    Node* node = vertices[A[0]];
     node->posList.push_back(0);
     for (uint64_t j = 1; j < csa.size(); ++j) {
         uint64_t i = A[j];
         if (i != -1) {
-            if (!node->is_exit)
+            if (!node->is_exit) {
                 node->adjList.push_back(i);
-            node = graph[i];
+            }
+            node = vertices[i];
             node->posList.push_back(j);
         }
     }
+}
+
+
+ostream& operator<<(ostream& os, const Node& node) {
+    os << "  " << node.id << " [label=\"";
+    for (int j = 0; j < node.posList.size(); ++j) {
+        os << node.posList[j] + 1; // human indexing starts from 1
+        if (j != node.posList.size() - 1) {
+            os << ",";
+        }
+    }
+    os << ":" << node.len << "\"]" << endl;
+
+    for (auto adj_node : node.adjList) {
+        os << "  " << node.id << " -> " << adj_node << endl;
+    }
+    return os;
 }

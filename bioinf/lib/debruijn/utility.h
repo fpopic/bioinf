@@ -3,17 +3,21 @@
 #ifndef BIOINF_PROJECT_UTILITY_H
 #define BIOINF_PROJECT_UTILITY_H
 
-#include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
-template<typename T>
-void print_vector(vector<T> const& vec, char delimiter = ' ');
+struct Utility {
 
-string parse_fast_a(string file_name);
+    static uint64_t parse_k(string file_path);
 
+    static string parse_fasta(string file_path);
+
+    static int parse_algorithm(string algorithm);
+
+};
 
 #endif //BIOINF_PROJECT_UTILITY_H

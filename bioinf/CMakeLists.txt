@@ -18,29 +18,11 @@ include_directories(include lib)
 
 # compile subprojects (source of my libs) too
 add_subdirectory(lib/mylib)
+add_subdirectory(lib/debruijn)
 add_subdirectory(test)
 
 # create run configs executable
-add_executable(main_graph.exe src/main.cpp src/algorithms/de_bruijin_graph.cpp src/algorithms/brujin_algorithms.cpp src/utility/utility.cpp)
-
-add_executable(brujin_algorithms.exe src/algorithms/de_bruijin_graph.cpp src/algorithms/brujin_algorithms.cpp src/utility/utility.cpp)
-add_executable(playground.exe src/playground.cpp src/utility/utility.cpp)
-
-add_executable(sais_bwt_example.exe src/examples/sais_bwt_example.cpp)
-add_executable(sais_sa_example.exe src/examples/sais_sa_example.cpp)
-
-add_executable(sdsl_bwt.exe src/examples/sdsl_bwt.cpp)
-add_executable(sdsl_interval_symbols.exe src/examples/sdsl_interval_symbols.cpp)
-
+add_executable(debruijn.exe src/main.cpp)
 
 # add libraries to executable
-target_link_libraries(main_graph.exe sdsl divsufsort divsufsort64)
-
-target_link_libraries(brujin_algorithms.exe sdsl divsufsort divsufsort64)
-target_link_libraries(playground.exe sdsl divsufsort divsufsort64)
-
-target_link_libraries(sais_sa_example.exe sdsl divsufsort divsufsort64)
-target_link_libraries(sais_bwt_example.exe sdsl divsufsort divsufsort64)
-
-target_link_libraries(sdsl_bwt.exe sdsl divsufsort divsufsort64)
-target_link_libraries(sdsl_interval_symbols.exe sdsl divsufsort divsufsort64)
+target_link_libraries(debruijn.exe debruijn sdsl divsufsort divsufsort64)

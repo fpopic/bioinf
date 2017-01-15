@@ -1,0 +1,15 @@
+"""
+A representation of a compressed de Bruijn graph
+for pan-genome analysis that enables search
+Timo Beller
+Enno Ohlebusch
+
+
+Algorithm:
+These are the algorithms proposed in
+	A representation of a compressed de Bruijn graph
+	for pan-genome analysis that enables search
+	http://arxiv.org/abs/1602.03333
+"""
+
+    We run their executables to compare outputs with ours.

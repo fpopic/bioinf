@@ -4,7 +4,7 @@
 using namespace std;
 using namespace sdsl;
 
-// cmd: res/input/1e6_ecoli.fasta res/input/1e6_ecoli.k A1 res/output/
+// cmd: res/input/ecoli_1m_chars.fasta res/input/ecoli_1m_chars.k A1 res/output/
 int main(int argc, char* argv[]) {
 
     if (argc != 5) {
@@ -19,12 +19,13 @@ int main(int argc, char* argv[]) {
     CompressedDeBruijnGraph graph(S, k, algorithm);
 
     ofstream out;
+    string output = string(argv[4]) + string(argv[3]);
 
-    out.open(string(argv[4]) + string(argv[3]) + ".graph");
+    out.open(output + ".actual.k" + to_string(k) + ".dot");
     out << graph << endl;
     out.close();
 
-    out.open(string(argv[4] + string(argv[3]) + ".starts"));
+    out.open(output + ".actual.k" + to_string(k) + ".start_nodes");
     for (auto start : graph.start_nodes) out << start << endl;
     out.close();
 

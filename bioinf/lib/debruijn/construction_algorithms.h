@@ -31,12 +31,21 @@ struct Edge {
     Edge(uint64_t start, uint64_t end, uint64_t multiplicity) : start(start), end(end), multiplicity(multiplicity) {}
 };
 
+struct Triple {
+    vector<Node*> nodes;
+    vector<uint64_t> start_nodes;
+    vector<Edge> edges;
+
+    Triple(vector<Node*> nodes, vector<uint64_t> start_nodes, vector<Edge> edges)
+            : nodes(nodes), start_nodes(start_nodes), edges(edges) {}
+};
+
 class ConstructionAlgorithms {
 
 public:
 
     /* Algorithm 1 */
-    static pair<vector<Node*>, vector<Edge>> create_compressed_graph(const uint64_t& k, const wt_huff<>& wta, const lcp_wt<>& lcp);
+    static Triple create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_wt<>& lcp);
 
     /* A1 */
     static void finish_graph_A1(const csa_bitcompressed<>& csa, vector<Node*>& vertices, const vector<Edge>& edges);

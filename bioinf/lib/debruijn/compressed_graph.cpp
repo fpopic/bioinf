@@ -17,10 +17,11 @@ CompressedDeBruijnGraph::CompressedDeBruijnGraph(string S, const uint64_t& k, al
     construct_im(lcp, S, 1);
 
     // Algorithm 1
-    auto graph_edges = ConstructionAlgorithms::create_compressed_graph(k, wt, lcp);
+    Triple triple = ConstructionAlgorithms::create_compressed_graph(k, wt, lcp);
 
-    this->vertices = graph_edges.first;
-    this->edges = graph_edges.second;
+    this->vertices = triple.nodes;
+    this->start_nodes = triple.start_nodes;
+    this->edges = triple.edges;
 
     // CSA of S
     csa_bitcompressed<> csa;

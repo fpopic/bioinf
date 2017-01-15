@@ -39,6 +39,7 @@ string Utility::parse_fasta(string file_path) {
         }
         result += line;
     }
+//    ako se ovo doda umre lcp konstruktor
 //    result.resize(result.size() + 1);
 //    result[result.size() - 1] = 0;
     return result;

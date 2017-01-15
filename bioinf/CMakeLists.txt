@@ -3,7 +3,7 @@ project(bioinf_project)
 set(CMAKE_CXX_STANDARD 11)
 
 # gcc (do not use -static flag because google tests needs linker help)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11") # -O0 -g -pg -Q for gprof  after put -03
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3") # -O0 -g -pg -Q for gprof  after put -03
 
 # set dir for root folder at tuntime , e.g. cin/cout root path
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}")

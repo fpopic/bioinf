@@ -5,25 +5,25 @@ const uint64_t ConstructionAlgorithms::GND = numeric_limits<uint64_t>::max();
 /*
  * Created by Deni Munjas, Filip Popic
  */
-pair<vector<Node*>, vector<Edge>>
-ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff<>& wta, const lcp_wt<>& lcp) {
+Triple ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_wt<>& lcp) {
     bool open = false;
     uint64_t counter = 0;
 
     vector<Node*> graph;
     vector<Edge> edges;
     queue<Node*> queue;
+    vector<uint64_t> start_nodes;
 
-    bit_vector B(wta.size(), 0);
+    bit_vector B(wt.size(), 0);
 
     vector<uint64_t> lex_smaller_table(256, 0);
     for (uint64_t i = 0, sum = 0; i < 256; ++i) {
         lex_smaller_table[i] = sum;
-        sum += wta.rank(wta.size(), i);
+        sum += wt.rank(wt.size(), i);
     }
 
     uint64_t lb = 0;
-    for (uint64_t i = 0 ; i < wta.size(); ++i) {
+    for (uint64_t i = 0; i < wt.size(); ++i) {
         if (lcp[i] < k and open) {
             open = false;
             B[i - 1] = 1;
@@ -42,10 +42,10 @@ ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff
         }
     }
     if (open) {
-        Node* node = new Node(counter, lb, wta.size() - 1, k); // DRY
+        Node* node = new Node(counter, lb, wt.size() - 1, k); // DRY
         graph.push_back(node);
         queue.push(node);
-        B[wta.size() - 1] = 1;
+        B[wt.size() - 1] = 1;
         counter++;
     }
 
@@ -66,9 +66,10 @@ ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff
     //endregion
 
     uint64_t quantity;
-    vector<uint8_t> cs(wta.sigma);
-    vector<uint64_t> rank_c_i(wta.sigma);
-    vector<uint64_t> rank_c_j(wta.sigma);
+    vector<uint8_t> cs(wt.sigma);
+    vector<uint64_t> rank_c_i(wt.sigma);
+    vector<uint64_t> rank_c_j(wt.sigma);
+
     while (not queue.empty()) {
         Node* node = queue.front();
         queue.pop();
@@ -76,7 +77,7 @@ ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff
 
         do {
             extendable = false;
-            interval_symbols(wta, node->lb, node->rb + 1, quantity, cs, rank_c_i, rank_c_j);
+            interval_symbols(wt, node->lb, node->rb + 1, quantity, cs, rank_c_i, rank_c_j);
 
             for (uint64_t iter = 0; iter < quantity; ++iter) {
                 uint8_t c = cs[iter]; // Onaj u lijevo za jedan.
@@ -85,8 +86,9 @@ ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff
                 uint64_t ones = bv_rank(lb + 1);
                 uint64_t id;
 
+                id = GND;
                 if (ones % 2 == 0 and B[lb] == 0) {
-                    id = GND;
+
                 }
                 else {
                     id = (ones + 1) / 2;
@@ -94,6 +96,10 @@ ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff
 
                 if (id != GND) {
                     edges.push_back(Edge(id - 1, node->id, rb - lb + 1));
+                }
+
+                else if (c == 1) {
+                    start_nodes.push_back(node->id);
                 }
                 else if (c > 1) {
                     if (quantity == 1) {
@@ -106,7 +112,6 @@ ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff
                         Node* new_node = new Node(counter, lb, rb, k);
                         graph.push_back(new_node);
                         edges.push_back(Edge(counter, node->id, rb - lb + 1));
-
                         queue.push(new_node);
                         counter++;
                     }
@@ -115,7 +120,7 @@ ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff
         } while (extendable);
     }
 
-    return make_pair(graph, edges);
+    return Triple(graph, start_nodes, edges);
 }
 
 /*

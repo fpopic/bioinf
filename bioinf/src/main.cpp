@@ -8,7 +8,7 @@ using namespace sdsl;
 int main(int argc, char* argv[]) {
 
     if (argc != 5) {
-        cerr << "Usage: ./main_graph.exe <FILE.fasta> <FILE.k> <\"A1\" or \"A2\"> <OUTPUT_FOLDER>";
+        cerr << "Usage: ./debruijn.exe <FILE.fasta> <FILE.k> <\"A1\" or \"A2\"> <OUTPUT_FOLDER>";
         return 1;
     }
 
@@ -21,10 +21,12 @@ int main(int argc, char* argv[]) {
     ofstream out;
 
     out.open(string(argv[4]) + string(argv[3]) + ".graph");
-    out << graph;
+    out << graph << endl;
+    out.close();
 
-//    out.open(string(argv[4] + string(argv[2]) + ".starts"));
-//    out << graph.start_node;
+    out.open(string(argv[4] + string(argv[3]) + ".starts"));
+    for (auto start : graph.start_nodes) out << start << endl;
+    out.close();
 
     return 0;
 }

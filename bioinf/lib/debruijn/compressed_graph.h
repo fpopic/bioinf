@@ -18,6 +18,7 @@ using namespace sdsl;
 struct CompressedDeBruijnGraph {
     vector<Node*> vertices;
     vector<Edge> edges;
+    vector<uint64_t> start_nodes;
 
     CompressedDeBruijnGraph(string input_file, const uint64_t& k, algorithm_t finish_algorithm);
 

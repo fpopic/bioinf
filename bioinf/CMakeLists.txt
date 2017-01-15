@@ -17,7 +17,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 include_directories(include lib)
 
 # compile subprojects (source of my libs) too
-add_subdirectory(lib/mylib)
 add_subdirectory(lib/debruijn)
 add_subdirectory(test)
 

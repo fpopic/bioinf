@@ -49,7 +49,14 @@ TEST(a1, ecoli_10x1e4) {
     RUN_BOTH_AND_ASSERT_OUTPUTS(argv);
 }
 
+TEST(a1, ecoli_reference) {
+    vector<string> argv = {"", "res/input/ecoli_reference.fasta", "res/input/10.k", "A1", "res/output/ecoli_reference."};
+    RUN_BOTH_AND_ASSERT_OUTPUTS(argv);
+}
+
+
 ///////////////////////////
+
 
 TEST(a2, ecoli_1m_chars) {
     vector<string> argv = {"", "res/input/ecoli_1m_chars.fasta", "res/input/ecoli_1m_chars.k", "A2", "res/output/1e6_ecoli."};

@@ -20,7 +20,7 @@ struct CompressedDeBruijnGraph {
     vector<Edge> edges;
     vector<uint64_t> start_nodes;
 
-    CompressedDeBruijnGraph(string input_file, const uint64_t& k, algorithm_t finish_algorithm);
+    CompressedDeBruijnGraph(string& input_file, const uint64_t& k, algorithm_t finish_algorithm);
 
     friend ostream& operator<<(ostream& os, const CompressedDeBruijnGraph& graph);
 };

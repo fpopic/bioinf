@@ -1,6 +1,7 @@
 #include "compressed_graph.h"
 
-CompressedDeBruijnGraph::CompressedDeBruijnGraph(string S, const uint64_t& k, algorithm_t A) {
+
+CompressedDeBruijnGraph::CompressedDeBruijnGraph(string& S, const uint64_t& k, algorithm_t A) {
 
     // BWT of S
     string bwt(S.size(), ' ');
@@ -16,16 +17,12 @@ CompressedDeBruijnGraph::CompressedDeBruijnGraph(string S, const uint64_t& k, al
     lcp_wt<> lcp;
     construct_im(lcp, S, 1);
 
-    // Algorithm 1
-    Triple triple = ConstructionAlgorithms::create_compressed_graph(k, wt, lcp);
-
-    this->vertices = triple.nodes;
-    this->start_nodes = triple.start_nodes;
-    this->edges = triple.edges;
-
     // CSA of S
     csa_bitcompressed<> csa;
     construct_im(csa, S, 1);
+
+    // Algorithm 1
+    ConstructionAlgorithms::create_compressed_graph(k, wt, lcp, this->vertices, this->start_nodes, this->edges);
 
     if (A == 1)
         ConstructionAlgorithms::finish_graph_A1(csa, this->vertices, this->edges);

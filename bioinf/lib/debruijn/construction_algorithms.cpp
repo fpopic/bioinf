@@ -1,18 +1,26 @@
 #include "construction_algorithms.h"
 
+
+#include <cfloat>
+#include <chrono>
+
+using namespace std;
+
+typedef chrono::high_resolution_clock Time;
+typedef chrono::duration<float> fsec;
+
+
 const uint64_t ConstructionAlgorithms::GND = numeric_limits<uint64_t>::max();
 
 /*
  * Created by Deni Munjas, Filip Popic
  */
-Triple ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_wt<>& lcp) {
+void ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_wt<>& lcp,
+                                                     vector<Node*>& graph, vector<uint64_t>& start_nodes, vector<Edge>& edges) {
     bool open = false;
     uint64_t counter = 0;
 
-    vector<Node*> graph;
-    vector<Edge> edges;
     queue<Node*> queue;
-    vector<uint64_t> start_nodes;
 
     bit_vector B(wt.size(), 0);
 
@@ -52,6 +60,7 @@ Triple ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const 
     bit_vector::rank_1_type bv_rank;
     util::init_support(bv_rank, &B);
 
+
     // region Adding stop nodes
 //    Node* stop_node = new Node(counter, 0, 0, 1);
 //    graph.push_back(stop_node);
@@ -64,6 +73,10 @@ Triple ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const 
         counter++;
     }
     //endregion
+
+    auto start = Time::now();
+    fsec elapsed_seconds;
+    printf("Time=%fs\n", elapsed_seconds.count());
 
     uint64_t quantity;
     vector<uint8_t> cs(wt.sigma);
@@ -120,7 +133,8 @@ Triple ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const 
         } while (extendable);
     }
 
-    return Triple(graph, start_nodes, edges);
+    elapsed_seconds = Time::now() - start;
+    printf("Elapsed=%f\n", elapsed_seconds.count());
 }
 
 /*

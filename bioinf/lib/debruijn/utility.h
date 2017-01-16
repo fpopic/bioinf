@@ -14,7 +14,7 @@ struct Utility {
 
     static uint64_t parse_k(string file_path);
 
-    static string parse_fasta(string file_path);
+    static void parse_fasta(string file_path, string& result);
 
     static int parse_algorithm(string algorithm);
 

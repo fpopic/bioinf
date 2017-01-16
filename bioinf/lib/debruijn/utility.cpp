@@ -1,7 +1,7 @@
 #include "utility.h"
 
 uint64_t Utility::parse_k(string file_path) {
-    ios::sync_with_stdio(false);
+//    ios::sync_with_stdio(false);
     ifstream in(file_path);
 
     if (!in.good()) {
@@ -15,8 +15,8 @@ uint64_t Utility::parse_k(string file_path) {
     return stoul(result);
 }
 
-string Utility::parse_fasta(string file_path) {
-    ios::sync_with_stdio(false);
+void Utility::parse_fasta(string file_path, string& result) {
+//    ios::sync_with_stdio(false);
     ifstream in(file_path);
 
     if (!in.good()) {
@@ -24,7 +24,6 @@ string Utility::parse_fasta(string file_path) {
         exit(1);
     }
 
-    string result;
     int num_of_strings = 0;
 
     string line;
@@ -42,11 +41,10 @@ string Utility::parse_fasta(string file_path) {
 //    ako se ovo doda umre lcp konstruktor
 //    result.resize(result.size() + 1);
 //    result[result.size() - 1] = 0;
-    return result;
 }
 
 int Utility::parse_algorithm(string algorithm) {
-    ios::sync_with_stdio(false);
+//    ios::sync_with_stdio(false);
     if (algorithm != "A1" and algorithm != "A2") {
         cerr << "Wrong Algorithm name:" + algorithm << endl << "Allowed algorithms: A1 or A2" << endl;
         exit(1);

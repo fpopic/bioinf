@@ -73,7 +73,9 @@ void ASSERT_FILES_EQ(uint64_t k, const string& output) {// read actual and expec
 
 /*  Run original algorithm and corresponding implemented algorithm. */
 void RUN_BOTH_AND_ASSERT_OUTPUTS(vector<string>& argv) {
-    string S = Utility::parse_fasta(argv[1]);
+    string S;
+
+    Utility::parse_fasta(argv[1], S);
     uint64_t k = Utility::parse_k(argv[2]);
     algorithm_t algorithm = Utility::parse_algorithm(argv[3]);
     string output = string(argv[4]) + string(argv[3]); // output folder / Ax

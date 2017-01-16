@@ -12,7 +12,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    string S = Utility::parse_fasta(argv[1]);
+    string S;
+    Utility::parse_fasta(argv[1], S);
     uint64_t k = Utility::parse_k(argv[2]);
     algorithm_t algorithm = Utility::parse_algorithm(argv[3]);
 

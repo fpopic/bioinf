@@ -45,7 +45,8 @@ class ConstructionAlgorithms {
 public:
 
     /* Algorithm 1 */
-    static Triple create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_wt<>& lcp);
+    static void create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_wt<>& lcp,
+                                          vector<Node*>& nodes,vector<uint64_t>& start_nodes,vector<Edge>& edges);
 
     /* A1 */
     static void finish_graph_A1(const csa_bitcompressed<>& csa, vector<Node*>& vertices, const vector<Edge>& edges);

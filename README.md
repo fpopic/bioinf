@@ -7,6 +7,7 @@ Original Paper: https://almob.biomedcentral.com/articles/10.1186/s13015-016-0083
 
 Original Implementation: https://www.uni-ulm.de/in/theo/research/seqana.html
 
+Course website: http://www.fer.unizg.hr/predmet/bio
 
 ## Dependencies (Project C++ libraries)
 Installation will install files in folders:

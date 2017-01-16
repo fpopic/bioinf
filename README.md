@@ -1,4 +1,4 @@
-# BioInf
+# Student assignment project (Bioinformatics)
 **A representation of a compressed de Bruijn graph for pan-genome analysis that enables search**
 
 Goal: Implementation of A1 & A2 algorithms and comparison to original implementation 

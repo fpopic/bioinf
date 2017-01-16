@@ -1,21 +1,22 @@
 #include "construction_algorithms.h"
 
 
+
+
 #include <cfloat>
 #include <chrono>
-
-using namespace std;
 
 typedef chrono::high_resolution_clock Time;
 typedef chrono::duration<float> fsec;
 
+using namespace std;
 
 const uint64_t ConstructionAlgorithms::GND = numeric_limits<uint64_t>::max();
 
 /*
  * Created by Deni Munjas, Filip Popic
  */
-void ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_wt<>& lcp,
+void ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_bitcompressed<>& lcp,
                                                      vector<Node*>& graph, vector<uint64_t>& start_nodes, vector<Edge>& edges) {
     bool open = false;
     uint64_t counter = 0;
@@ -74,9 +75,6 @@ void ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt
     }
     //endregion
 
-    auto start = Time::now();
-    fsec elapsed_seconds;
-    printf("Time=%fs\n", elapsed_seconds.count());
 
     uint64_t quantity;
     vector<uint8_t> cs(wt.sigma);
@@ -133,8 +131,6 @@ void ConstructionAlgorithms::create_compressed_graph(const uint64_t& k, const wt
         } while (extendable);
     }
 
-    elapsed_seconds = Time::now() - start;
-    printf("Elapsed=%f\n", elapsed_seconds.count());
 }
 
 /*

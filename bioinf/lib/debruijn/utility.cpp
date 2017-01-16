@@ -16,7 +16,7 @@ uint64_t Utility::parse_k(string file_path) {
 }
 
 void Utility::parse_fasta(string file_path, string& result) {
-//    ios::sync_with_stdio(false);
+    ios::sync_with_stdio(false);
     ifstream in(file_path);
 
     if (!in.good()) {

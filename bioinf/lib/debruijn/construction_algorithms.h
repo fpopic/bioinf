@@ -45,7 +45,7 @@ class ConstructionAlgorithms {
 public:
 
     /* Algorithm 1 */
-    static void create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_wt<>& lcp,
+    static void create_compressed_graph(const uint64_t& k, const wt_huff<>& wt, const lcp_bitcompressed<>& lcp,
                                           vector<Node*>& nodes,vector<uint64_t>& start_nodes,vector<Edge>& edges);
 
     /* A1 */

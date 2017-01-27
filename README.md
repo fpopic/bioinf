@@ -78,7 +78,7 @@ cmake --build cmake-build-debug --target debruijn_tests.exe -- -j 4
 # Running
 ```
 cd REPO_FOLDER/bioinf
-mkdir test/res/out
+mkdir test/res/output
 ./debruijn.exe test/res/input/XXX.fasta test/res/input/XXX.k <A1 or A2> test/res/output/XXX.
 ```
 # Running tests

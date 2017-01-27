@@ -71,12 +71,14 @@ libdivsufsort64.a  libsais.a  libdivsufsort.a  libsdsl.a  pkgconfig
 ```
 cd REPO_FOLDER/bioinf
 cmake --build cmake-build-debug --target debruijn.exe -- -j 4
+cd test
 cmake --build cmake-build-debug --target debruijn_tests.exe -- -j 4
 ```
 
 # Running
 ```
 cd REPO_FOLDER/bioinf
+mkdir test/res/out
 ./debruijn.exe test/res/input/XXX.fasta test/res/input/XXX.k <A1 or A2> test/res/output/XXX.
 ```
 # Running tests

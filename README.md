@@ -1,7 +1,7 @@
 # Student assignment project (Bioinformatics)
 **A representation of a compressed de Bruijn graph for pan-genome analysis that enables search**
 
-Goal: Implementation of A1 & A2 algorithms and comparison to original implementation 
+Goal: Implementation of A1 & A2 algorithms and comparison to the original implementation 
 
 Original Paper: https://almob.biomedcentral.com/articles/10.1186/s13015-016-0083-7
 
@@ -58,6 +58,40 @@ Compiles together with sources as cmake subproject (/test/lib/gtest-1.8.0). No a
 #
 ### Folder structure after the installation went successful:
 
-![Solid](http://www.deviantpics.com/images/2016/12/16/Selection_135.png)
+```
+$ ls usr/local/include/
+divsufsort64.h  divsufsort.h  sais.h  sais.hxx  sdsl
 
+$ ls /usr/local/lib/
+libdivsufsort64.a  libsais.a  libdivsufsort.a  libsdsl.a  pkgconfig
+```
 
+# Compiling 
+
+```
+cd REPO_FOLDER/bioinf
+cmake --build cmake-build-debug --target debruijn.exe -- -j 4
+cmake --build cmake-build-debug --target debruijn_tests.exe -- -j 4
+```
+
+# Running
+```
+cd REPO_FOLDER/bioinf
+./debruijn.exe test/res/input/XXX.fasta test/res/input/XXX.k <A1 or A2> test/res/output/XXX.
+```
+# Running tests
+```
+cd REPO_FOLDER/bioinf/test
+```
+All tests
+```
+./debruijn_tests.exe
+```
+A1 tests
+```
+./debruijn_tests.exe --gtest_filter=a1*
+```
+A2 tests
+```
+./debruijn_tests.exe --gtest_filter=a2*
+```
